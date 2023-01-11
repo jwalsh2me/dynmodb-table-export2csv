@@ -1,6 +1,5 @@
 import boto3
 import botocore
-import json
 import os
 import pandas as pd
 from datetime import datetime
