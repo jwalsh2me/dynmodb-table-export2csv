@@ -1,0 +1,62 @@
+Transform: AWS::Serverless-2016-10-31
+Description: |
+  Export a named DynamoDB Table to a CSV then upload to S3 and
+  Expire S3 Objects after 60 days
+
+Parameters:
+  ENV:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - prod
+      - dev
+  SourceTableName:
+    Type: String
+    Default: "name-of-table"
+  ExportBucketName:
+    Type: String
+    Default: "name-of-bucket"
+
+Resources:
+  ExportBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketName: !Ref ExportBucketName
+      LifecycleConfiguration:
+        Rules:
+          - Id: Expire60Days
+            Status: Enabled
+            ExpirationInDays: 60
+
+  tableExport:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 240
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      MemorySize: 2048
+      CodeUri: tableExport/
+      Environment:
+        Variables:
+          app_env: !Ref ENV
+          export_bucket: !Ref ExportBucket
+          table_name: !Ref SourceTableName
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref SourceTableName
+        - S3CrudPolicy:
+            BucketName: !Ref ExportBucket
+
+Outputs:
+  DDBTableName:
+    Value: !Ref SourceTableName
+    Description: Source DDB Table Name
+  ExportBucket:
+    Value: !Ref ExportBucket
+    Description: S3 Export Bucket Name

@@ -1,0 +1,12 @@
+version = 0.1
+[jpw-prod]
+[jpw-prod.deploy]
+[jpw-prod.deploy.parameters]
+stack_name = "dynamodb-table-export2csv"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-mrokmiz3exit"
+s3_prefix = "dynamodb-table-export2csv"
+region = "us-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "ENV=\"prod\" SourceTableName=\"gonet-image-metadata-v2\" ExportBucketName=\"jpw-dynamodb-export\""
+image_repositories = []

@@ -1,2 +1,18 @@
 # dynmodb-table-export2csv
-Simple SAM app to export a DynamoDB Table to a CSV and copy to S3
+
+Simple SAM app to export a DynamoDB Table to a CSV and upload to S3
+
+This function will need the name of the DynamoDB table that you want to export.  It will also create a new bucket
+do upload the export file into.
+
+The export is a simple CSV dump of Key-Value pairs that can be used to recreate a DynamoDB if needed or further parsed into a CSV file that can be used for other purposes.
+
+Sample Output:
+
+```CSV
+XResolution,ShutterSpeedValue,altitude,GPSInfo,DateTime,DateTimeOriginal,gonet_camera_name,ImageWidth,image_date,Model,ExifInteroperabilityOffset,ExposureTime,source_location,image_name,ExifOffset,item_added,ExposureProgram,ExifImageHeight,ResolutionUnit,image_time,jpeg_location,ExifImageWidth,ImageLength,lat_lon,gonet_software_version,YCbCrPositioning,DateTimeDigitized,YResolution,Artist,gonet_white_balance,ExposureMode,ColorSpace,Flash,tiff_location,MeteringMode,FlashPixVersion,ISOSpeedRatings,Make,BrightnessValue
+{'S': '72.0'},{'S': '-2.584957'},{'S': '0'},"{'S': ""{1: 'N', 2: (0.0, 0.0, 0.0), 3: 'W', 4: (0.0, 0.0, 0.0), 6: nan}""}",{'S': '2022:08:06 18:22:12'},{'S': '2022:08:06 18:22:12'},{'S': 'GONet230'},{'S': '4056'},{'S': '2022-08-06'},{'S': 'RP_imx477'},{'S': '970'},{'S': '5.999981'},{'S': 's3://gonet-image-source/GONet230/230_220806_182209_1659810132.jpg'},{'S': '230_220806_182209_1659810132'},{'S': '342'},{'S': '2022-12-18'},{'S': '3'},{'S': '3040'},{'S': '2'},{'S': '18:22:12'},{'S': 's3://gonet-split-jpeg/GONet230/230_220806_182209_1659810132.jpeg'},{'S': '4056'},{'S': '3040'},"{'S': '0.0, 0.0'}",{'S': '21.02'},{'S': '1'},{'S': '2022:08:06 18:22:12'},{'S': '72.0'},"{'S': 'Hostname: GONet230, Version: 21.02, WB: (3.35, 1.59), Lat: 0.0, Long: 0.0, Alt: 0'}","{'S': '(3.35,1.59)'}",{'S': '0'},{'S': '1'},{'S': '0'},{'S': 's3://gonet-split-tiff/GONet230/230_220806_182209_1659810132.tiff'},{'S': '2'},"{'S': ""b'0100'""}",{'S': '800'},{'S': 'RaspberryPi'},{'S': '0.0'}
+{'S': '72.0'},{'S': '-2.584957'},{'S': 'nan'},"{'S': ""{1: 'X', 2: (0.0, 0.0, nan), 3: 'X', 4: (0.0, 0.0, nan), 6: nan}""}",{'S': '2022:09:11 12:52:09'},{'S': '2022:09:11 12:52:09'},{'S': 'GONet228'},{'S': '4056'},{'S': '2022-09-11'},{'S': 'RP_imx477'},{'S': '892'},{'S': '5.999981'},{'S': 's3://gonet-image-source/GONet228/228_220911_115040_1662897129.jpg'},{'S': '228_220911_115040_1662897129'},{'S': '248'},{'S': '2022-12-18'},{'S': '3'},{'S': '3040'},{'S': '2'},{'S': '12:52:09'},{'S': 's3://gonet-split-jpeg/GONet228/228_220911_115040_1662897129.jpeg'},{'S': '4056'},{'S': '3040'},"{'S': 'nan, nan'}",{'S': '20.11'},{'S': '1'},{'S': '2022:09:11 12:52:09'},{'S': '72.0'},,"{'S': '(3.35,1.59)'}",{'S': '0'},{'S': '1'},{'S': '0'},{'S': 's3://gonet-split-tiff/GONet228/228_220911_115040_1662897129.tiff'},{'S': '2'},"{'S': ""b'0100'""}",{'S': '800'},{'S': 'RaspberryPi'},{'S': '0.56'}
+{'S': '72.0'},{'S': '-2.584957'},{'S': '197.9'},"{'S': ""{1: 'N', 2: (41.0, 51.0, 59.0), 3: 'W', 4: (87.0, 36.0, 25.0), 6: 21.88888888888889}""}",{'S': '2022:10:01 10:15:52'},{'S': '2022:10:01 10:15:52'},{'S': 'GONet290'},{'S': '4056'},{'S': '2022-10-01'},{'S': 'RP_imx477'},{'S': '992'},{'S': '5.999981'},{'S': 's3://gonet-image-source/GONet290/290_221001_101506_1664619352.jpg'},{'S': '290_221001_101506_1664619352'},{'S': '366'},{'S': '2022-12-18'},{'S': '3'},{'S': '3040'},{'S': '2'},{'S': '10:15:52'},{'S': 's3://gonet-split-jpeg/GONet290/290_221001_101506_1664619352.jpeg'},{'S': '4056'},{'S': '3040'},"{'S': '41.866364279, -87.607054452'}",{'S': '21.02'},{'S': '1'},{'S': '2022:10:01 10:15:52'},{'S': '72.0'},"{'S': 'Hostname: GONet290, Version: 21.02, WB: (3.35, 1.59), Lat: 41.866364279, Long: -87.607054452, Alt: 197.9'}","{'S': '(3.35,1.59)'}",{'S': '0'},{'S': '1'},{'S': '0'},{'S': 's3://gonet-split-tiff/GONet290/290_221001_101506_1664619352.tiff'},{'S': '2'},"{'S': ""b'0100'""}",{'S': '800'},{'S': 'RaspberryPi'},{'S': '0.59'}
+
+```
